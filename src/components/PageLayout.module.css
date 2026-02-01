@@ -1,0 +1,81 @@
+.landingPage {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    color: var(--text-primary);
+    position: relative;
+}
+
+.micaBg {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    background: 
+        radial-gradient(circle at 10% 10%, hsla(var(--brand-teal) / 0.15), transparent 40%),
+        radial-gradient(circle at 90% 90%, hsla(var(--brand-purple) / 0.15), transparent 40%);
+}
+
+.spotlight {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+        circle at var(--mouse-x) var(--mouse-y),
+        hsl(var(--brand-teal) / 0.1) 0%,
+        transparent 40%
+    );
+    pointer-events: none;
+}
+
+.hero {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 4rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 2rem;
+    padding: 0;
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+.footerLinks {
+    display: flex;
+    gap: 3rem;
+}
+
+.footerLinks a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footerLinks a:hover {
+    color: var(--text-primary);
+}
+
+@media (max-width: 600px) {
+    .footerLinks {
+        gap: 1.5rem;
+    }
+}

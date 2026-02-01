@@ -1,0 +1,212 @@
+.heroSubtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin: 1.25rem 0 2.5rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 500;
+}
+
+.signupForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+}
+
+.emailInput {
+    background: var(--surface-sunken);
+    border: 1px solid var(--border-subtle);
+    padding: 1.25rem 1.75rem;
+    border-radius: 1.25rem;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.emailInput:focus {
+    border-color: hsl(var(--brand-teal));
+    background: var(--surface-base);
+}
+
+.privacyNote {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    padding-left: 0.5rem;
+    line-height: 1.4;
+}
+
+.submitBtn {
+    --button-color: hsl(var(--brand-teal));
+    background-color: transparent;
+    color: var(--button-color);
+    border: 2px solid var(--button-color);
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: 100%;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background-color: var(--button-color);
+    color: #000;
+    box-shadow: 0 0 24px hsla(var(--brand-teal) / 0.4);
+    transform: translateY(-2px);
+}
+
+.submitBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
+.captchaContainer {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    min-height: 78px;
+}
+
+.successBox {
+    padding: 1rem 0;
+}
+
+.successTitle {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.successSubtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.priorityMessage {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    background: hsla(var(--brand-teal) / 0.05);
+    border: 1px solid hsla(var(--brand-teal) / 0.1);
+    border-radius: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    text-align: left;
+}
+
+.referralBox {
+    background: var(--surface-sunken);
+    padding: 1rem 1.5rem;
+    border-radius: 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    text-align: left;
+    border: 1px solid var(--border-subtle);
+}
+
+.refInputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    overflow: hidden;
+}
+
+.refInputGroup span {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+    font-weight: 700;
+}
+
+.refCode {
+    font-size: 0.95rem;
+    color: hsl(var(--brand-teal));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.copyBtn {
+    background: hsl(var(--brand-teal));
+    border: none;
+    color: #000;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.875rem;
+    cursor: pointer;
+    font-weight: 800;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.copyBtn:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.socialShare {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.shareBtn {
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    padding: 0.6rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.shareBtn:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+    background: var(--surface-base);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .referralBox {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .heroSubtitle {
+        margin: 1rem 0 2rem;
+    }
+}

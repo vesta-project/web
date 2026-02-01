@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+	/* =============================================================================
+	   VESTA BRANDING - Teal -> Dark Purple -> Orange
+	   ============================================================================= */
+	--brand-teal: 180 100% 50%;
+	--brand-purple: 280 100% 25%;
+	--brand-orange: 35 100% 50%;
+
+	--brand-gradient: linear-gradient(
+		180deg,
+		hsl(var(--brand-teal)),
+		hsl(var(--brand-purple)),
+		hsl(var(--brand-orange))
+	);
+
+	--brand-gradient-horizontal: linear-gradient(
+		135deg,
+		hsl(var(--brand-teal)),
+		hsl(var(--brand-purple)),
+		hsl(var(--brand-orange))
+	);
+
+	/* =============================================================================
+	   THEME SYSTEM - BASE TOKENS (Inherited from Launcher)
+	   ============================================================================= */
+
+	/* Base Hue - Defaults to Teal-ish */
+	--color__primary-hue: 180;
+	--button-lightness: 45%;
+	--accent-base: var(--color__primary-hue) 70% var(--button-lightness);
+
+	/* Light/Dark Mode Lightness Values */
+	--lightness-surface-base: 4%;
+	--lightness-surface-raised: 8%;
+	--lightness-surface-overlay: 12%;
+	--lightness-surface-sunken: 2%;
+	--lightness-text-primary: 95%;
+	--lightness-text-secondary: 75%;
+	--lightness-text-tertiary: 50%;
+	--lightness-text-dimmed: 35%;
+	--lightness-border: 20%;
+
+	/* Style Mode Defaults */
+	--effect-blur: 24px;
+	--effect-opacity: 0.6;
+	--effect-shadow-depth: 40px;
+	--effect-glow-opacity: 0.4;
+	--background-opacity: 0.05;
+
+	/* =============================================================================
+	   SEMANTIC TOKENS
+	   ============================================================================= */
+
+	--surface-base: hsl(var(--color__primary-hue) 10% var(--lightness-surface-base) / 0.98);
+	--surface-raised: hsl(var(--color__primary-hue) 15% var(--lightness-surface-raised) / var(--effect-opacity));
+	--surface-overlay: hsl(var(--color__primary-hue) 20% var(--lightness-surface-overlay) / var(--effect-opacity));
+	--surface-sunken: hsl(var(--color__primary-hue) 5% var(--lightness-surface-sunken) / 0.98);
+
+	--border-subtle: hsl(var(--color__primary-hue) 10% var(--lightness-border) / 0.3);
+	--border-strong: hsl(var(--color__primary-hue) 20% var(--lightness-border) / 0.6);
+	--border-glass: hsl(0 0% 100% / 0.1);
+
+	--text-primary: hsl(var(--color__primary-hue) 5% var(--lightness-text-primary));
+	--text-secondary: hsl(var(--color__primary-hue) 5% var(--lightness-text-secondary));
+	--text-tertiary: hsl(var(--color__primary-hue) 5% var(--lightness-text-tertiary));
+
+	--primary: hsl(var(--color__primary-hue) 70% var(--button-lightness));
+	--primary-hover: hsl(var(--color__primary-hue) 80% calc(var(--button-lightness) + 10%));
+
+    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    --font-bubbly: "Nunito", sans-serif;
+}
+
+[data-style="glass"] {
+	--surface-base: hsl(var(--color__primary-hue) 10% var(--lightness-surface-base) / 0.7);
+	--surface-raised: hsl(var(--color__primary-hue) 15% var(--lightness-surface-raised) / 0.4);
+	--border-subtle: var(--border-glass);
+	backdrop-filter: blur(var(--effect-blur));
+}
+
+[data-style="satin"] {
+	--surface-base: hsl(var(--color__primary-hue) 10% var(--lightness-surface-base) / 0.9);
+	--surface-raised: hsl(var(--color__primary-hue) 15% var(--lightness-surface-raised) / 0.8);
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+}
+
+body {
+    background-color: #030303;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.mica-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        hsl(var(--brand-purple) / 0.15) 0%,
+        hsl(var(--brand-teal) / 0.05) 30%,
+        transparent 70%
+    );
+    filter: blur(80px);
+}

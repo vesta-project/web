@@ -1,0 +1,45 @@
+.heroContent {
+    padding: 2.5rem 2rem;
+    border-radius: 2.5rem;
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+    background: hsla(230, 15%, 5%, 0.4);
+    backdrop-filter: blur(40px) saturate(150%);
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 1px hsla(0, 0%, 100%, 0.05);
+    position: relative;
+}
+
+.heroContent::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        hsla(0, 0%, 100%, 0.05) 0%,
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
+.brandTitle {
+    font-size: 7rem;
+    font-weight: 900;
+    margin: 0;
+    background: var(--brand-gradient-vertical);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.12em;
+    line-height: normal;
+    font-family: var(--font-bubbly);
+    text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+    .brandTitle {
+        font-size: 3.5rem;
+        letter-spacing: 0.08em;
+    }
+}

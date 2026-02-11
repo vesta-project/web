@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/logo.svg" alt="Vesta Launcher" width="400" />
+  <img src="public/vesta.png" alt="Vesta Launcher" width="400" />
 </p>
 
 <h3 align="center">Waitlist & Landing Page</h3>
@@ -26,6 +26,7 @@ This is the front-facing web presence for Vesta. It handles:
 
 ---
 <p align="center">
-  Looking for the launcher itself? Stay tuned. <br/>
+  Looking for the launcher itself? Check out <a href="https://github.com/vesta-project/launcher">Vesta Launcher</a>. <br/>
+  Join our <a href="https://discord.gg/zuDNHNHk8E">Discord</a> for updates and support. <br/>
   <sub>© 2026 Vesta Launcher</sub>
 </p>

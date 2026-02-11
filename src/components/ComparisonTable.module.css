@@ -1,0 +1,151 @@
+.section {
+  padding: 4rem 1rem;
+  max-width: 1000px;
+  margin: 4rem auto;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-family: 'Nunito', sans-serif;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: var(--brand-gradient-horizontal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.table {
+  background: var(--glass-background);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr;
+  background: var(--glass-background);
+  padding: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  transition: background 0.2s;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: hsla(0, 0%, 100%, 0.02);
+}
+
+.featureCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.iconWrapper {
+  color: var(--brand-teal);
+  background: hsla(180, 100%, 50%, 0.1);
+  padding: 0.5rem;
+  border-radius: 10px;
+  display: flex;
+}
+
+.featureName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.vestaCell {
+  color: var(--brand-teal);
+  font-size: 0.95rem;
+  font-weight: 600;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.markerVesta {
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 3px;
+  background: var(--brand-gradient);
+  border-radius: 4px;
+}
+
+.othersCell {
+  color: var(--text-tertiary);
+  font-size: 0.95rem;
+}
+
+.modrinthCell {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.prismCell {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.gdlauncherCell {
+  color: var(--text-tertiary);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .header {
+    display: none;
+  }
+  .row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .vestaCell {
+    padding-left: 0;
+  }
+  .markerVesta {
+    display: none;
+  }
+  .vestaCell::before {
+    content: "Vesta: ";
+    color: var(--brand-teal);
+    font-weight: 700;
+  }
+  .othersCell::before {
+    content: "Others: ";
+    color: var(--text-tertiary);
+    font-weight: 700;
+  }
+  .modrinthCell::before {
+    content: "Modrinth: ";
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+  .prismCell::before {
+    content: "Prism: ";
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+  .gdlauncherCell::before {
+    content: "GDLauncher: ";
+    color: var(--text-tertiary);
+    font-weight: 700;
+  }
+}

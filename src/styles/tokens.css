@@ -67,7 +67,10 @@
 	--text-tertiary: hsl(var(--color__primary-hue) 5% var(--lightness-text-tertiary));
 
 	--primary: hsl(var(--color__primary-hue) 70% var(--button-lightness));
-	--primary-hover: hsl(var(--color__primary-hue) 80% calc(var(--button-lightness) + 10%));
+		--primary-hover: hsl(var(--color__primary-hue) 80% calc(var(--button-lightness) + 10%));
+
+    --glass-background: hsla(0, 0%, 100%, 0.03);
+    --glass-border: hsla(0, 0%, 100%, 0.08);
 
     --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
     --font-bubbly: "Nunito", sans-serif;

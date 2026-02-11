@@ -1,190 +1,198 @@
-import { createSignal, onMount, Show } from "solid-js";
+﻿import { createSignal, onMount, createResource, Show, For } from "solid-js";
 import { clientOnly } from "@solidjs/start";
-import { useSearchParams } from "@solidjs/router";
-const HCaptcha = clientOnly(() => import("solid-hcaptcha"));
-import { joinWaitlist } from "../lib/waitlist.server";
-import { motion, AnimatePresence } from "motion-solid";
 import PageLayout from "../components/PageLayout";
-import GlassBox from "../components/GlassBox";
+import { ModSquirqle } from "../components/ModSquirqle";
+import { LauncherPreview } from "../components/LauncherPreview";
+import { FeaturesSection } from "../components/FeaturesSection";
+import { FAQ } from "../components/FAQ";
+import { GithubIcon, DiscordIcon } from "../components/Icons";
 import styles from "./index.module.css";
 
-export default function Home() {
-	const [isSubmitted, setIsSubmitted] = createSignal(false);
-	const [isLoading, setIsLoading] = createSignal(false);
-	const [email, setEmail] = createSignal("");
-	const [captchaToken, setCaptchaToken] = createSignal<string | null>(null);
-	const [referralData, setReferralData] = createSignal<{ code: string; total: number } | null>(null);
-	
-	const [searchParams] = useSearchParams();
+const CtaGroup = clientOnly(() => import("../components/CtaGroup"));
 
-	onMount(() => {
-		const saved = localStorage.getItem("vesta_waitlist_signup");
-		if (saved) {
-			const data = JSON.parse(saved);
-			setEmail(data.email);
-			setReferralData({ code: data.code, total: data.total });
-			setIsSubmitted(true);
-		}
-	});
+// Fetch version from latest release API (client-side only)
+const fetchVersion = async () => {
+  // Only run on client side
+  if (typeof window === 'undefined') {
+    return null; // Don't show version during SSR
+  }
 
-	const handleSubmit = async (e: SubmitEvent) => {
-		e.preventDefault();
-		if (!captchaToken()) {
-			alert("Please complete the captcha");
-			return;
-		}
+  try {
+    const response = await fetch('/api/releases/latest.json');
+    if (!response.ok) throw new Error('Failed to fetch version');
+    const data = await response.json();
+    return data.version || null; // Return null if no version in response
+  } catch (error) {
+    console.error('Error fetching version:', error);
+    return null; // Don't show fallback on fetch failure
+  }
+};
 
-		setIsLoading(true);
-		try {
-			const ref = searchParams.ref as string | undefined;
-			const result = await joinWaitlist(email(), captchaToken()!, ref);
-			
-			if (result.success) {
-				const data = { 
-					email: email(), 
-					code: result.referralCode!, 
-					total: result.totalSignups! 
-				};
-				setReferralData({ code: data.code, total: data.total });
-				localStorage.setItem("vesta_waitlist_signup", JSON.stringify(data));
-				setIsSubmitted(true);
-			} else {
-				alert(result.error || "Something went wrong. Please try again.");
-			}
-		} catch (err) {
-			alert("An error occurred. Please try again later.");
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	const getReferralLink = () => {
-		const code = referralData()?.code;
-		return code ? `${window.location.origin}/?ref=${code}` : window.location.origin;
-	};
-
-	const copyLink = () => {
-		const link = getReferralLink();
-		navigator.clipboard.writeText(link);
-		alert("Link copied!");
-	};
-
-	const shareOnX = () => {
-		const link = getReferralLink();
-		const text = encodeURIComponent("Elevate your Minecraft experience with Vesta Launcher! Join the waitlist: " + link);
-		window.open("https://twitter.com/intent/tweet?text=" + text + "&url=" + encodeURIComponent(link), "_blank");
-	};
-
-	const shareOnThreads = () => {
-		const link = getReferralLink();
-		const text = encodeURIComponent("Elevate your Minecraft experience with Vesta Launcher! Join the waitlist: " + link);
-		window.open("https://www.threads.net/intent/post?text=" + text, "_blank");
-	};
-
-	const shareOnBluesky = () => {
-		const link = getReferralLink();
-		const text = encodeURIComponent("Elevate your Minecraft experience with Vesta Launcher! Join the waitlist: " + link);
-		window.open("https://bsky.app/intent/compose?text=" + text, "_blank");
-	};
-
-	const shareOnTelegram = () => {
-		const link = getReferralLink();
-		const text = encodeURIComponent("Elevate your Minecraft experience with Vesta Launcher! Join the waitlist: " + link);
-		window.open("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + text, "_blank");
-	};
-
-	const shareOnReddit = () => {
-		const link = getReferralLink();
-		const title = "Vesta Launcher - The Next Generation Minecraft Launcher";
-		window.open(`https://www.reddit.com/submit?title=${encodeURIComponent(title)}&url=${encodeURIComponent(link)}`, "_blank");
-	};
-
-	const shareEmail = () => {
-		const link = getReferralLink();
-		const subject = encodeURIComponent("Join the Vesta Launcher Waitlist");
-		const body = encodeURIComponent("Hey,\n\nI just joined the waitlist for Vesta, a next-gen Minecraft launcher. Check it out here: " + link);
-		window.location.href = "mailto:?subject=" + subject + "&body=" + body;
-	};
-
-	return (
-		<PageLayout title="Vesta | The Next Generation Minecraft Launcher">
-			<GlassBox title="Vesta" maxWidth="600px">
-				<AnimatePresence mode="wait">
-					<Show when={!isSubmitted()} fallback={
-						<motion.div 
-							initial={{ opacity: 0, y: 10 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -10 }}
-							class={styles.successBox} 
-						>
-							<h2 class={styles.successTitle}>You're on the list!</h2>
-							<p class={styles.successSubtitle}>We'll email you at <strong>{email()}</strong> when we're ready.</p>
-							
-							<div class={styles.priorityMessage}>
-								<p>Want to get in sooner? Share your referral link below. 
-								Every friend who joins increases your priority for early access!</p>
-							</div>
-
-							<div class={styles.referralBox}>
-								<div class={styles.refInputGroup}>
-									<span>Your referral link</span>
-									<code class={styles.refCode}>
-										<Show when={typeof window !== "undefined"} fallback="...">
-											{window.location.origin}/?ref={referralData()?.code}
-										</Show>
-									</code>
-								</div>
-								<button class={styles.copyBtn} onClick={copyLink}>Copy</button>
-							</div>
-							<div class={styles.socialShare}>
-								<button onClick={shareOnX} class={styles.shareBtn}>X</button>
-								<button onClick={shareOnThreads} class={styles.shareBtn}>Threads</button>
-								<button onClick={shareOnBluesky} class={styles.shareBtn}>Bluesky</button>
-								<button onClick={shareOnTelegram} class={styles.shareBtn}>Telegram</button>
-								<button onClick={shareOnReddit} class={styles.shareBtn}>Reddit</button>
-								<button onClick={shareEmail} class={styles.shareBtn}>Email</button>
-							</div>
-						</motion.div>
-					}>
-						<motion.div 
-							initial={{ opacity: 0, y: 10 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -10 }}
-						>
-							<p class={styles.heroSubtitle}>
-								The modern Minecraft launcher. <br />Local, clean and optimised.
-							</p>
-							<form class={styles.signupForm} onSubmit={handleSubmit}>
-								<div class={styles.inputWrapper}>
-									<input 
-										type="email" 
-										placeholder="Enter your email" 
-										required 
-										disabled={isLoading()}
-										value={email()}
-										onInput={(e) => setEmail(e.currentTarget.value)}
-										class={styles.emailInput}
-									/>
-									<p class={styles.privacyNote}>
-										We'll never send spam. Your email stays private and is used to notify you when we're ready.
-									</p>
-								</div>
-								<div class={styles.captchaContainer}>
-									<HCaptcha 
-										id="main-captcha"
-										sitekey={import.meta.env.VITE_HCAPTCHA_SITEKEY || "10000000-ffff-ffff-ffff-000000000001"}
-										onVerify={(token) => setCaptchaToken(token)}
-									/>
-								</div>
-								<button type="submit" class={styles.submitBtn} disabled={isLoading() || !captchaToken()}>
-									{isLoading() ? "Joining..." : "Join Waitlist"}
-								</button>
-							</form>
-						</motion.div>
-					</Show>
-				</AnimatePresence>
-			</GlassBox>
-		</PageLayout>
-	);
+// Parse version from launcher package.json
+const parseVersion = (version: string) => {
+  // For "0.1.0", extract "0.1.0-alpha"
+  const parts = version.split('-');
+  if (parts.length >= 2) {
+    const versionPart = parts[0]; // "0.1.0"
+    const preReleasePart = parts[1]; // "alpha"
+    return `${preReleasePart.charAt(0).toUpperCase() + preReleasePart.slice(1).split(".")[0]} v${versionPart}`;
+  }
+  return version;
+};
+interface FeaturedMod {
+  id: string;
+  name: string;
+  icon: string;
+  url: string;
 }
 
+const MOD_POSITIONS = [
+  { initialX: 8, initialY: 15, delay: 0.2, speed: 4, floatRange: 15 },
+  { initialX: 88, initialY: 12, delay: 0.5, speed: 4.5, floatRange: 12 },
+  { initialX: 75, initialY: 5, delay: 1.4, speed: 4.2, floatRange: 16 },
+  { initialX: 4, initialY: 45, delay: 0.8, speed: 5, floatRange: 18 },
+  { initialX: 92, initialY: 50, delay: 1.1, speed: 3.8, floatRange: 14 },
+];
+
+async function fetchFeaturedMods(): Promise<FeaturedMod[]> {
+  try {
+    // Fetch directly from Modrinth API (no authentication required)
+    const response = await fetch(
+      'https://api.modrinth.com/v2/search?' +
+      new URLSearchParams({
+        query: '',
+        facets: JSON.stringify([
+          ["project_type:mod"]  // Only mods, any platform
+        ]),
+        index: 'downloads', // Sort by most downloaded
+        limit: '5',
+        offset: '0'
+      })
+    );
+
+    if (!response.ok) {
+      throw new Error(`Modrinth API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Transform to our format
+    const featuredMods: FeaturedMod[] = data.hits.map((hit: any) => ({
+      id: hit.project_id,
+      name: hit.title,
+      icon: hit.icon_url || 'https://cdn.modrinth.com/placeholder.svg',
+      url: `https://modrinth.com/mod/${hit.slug}`
+    }));
+
+    return featuredMods;
+  } catch (error) {
+    console.error('Error fetching featured mods:', error);
+
+    // Fallback to curated popular mods if API fails
+    return [
+      {
+        id: "AANobbMI",
+        name: "Sodium",
+        icon: "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp",
+        url: "https://modrinth.com/mod/sodium"
+      },
+      {
+        id: "YL57xq9U",
+        name: "Iris Shaders",
+        icon: "https://cdn.modrinth.com/data/YL57xq9U/18d0e7f076d3d6ed5bedd472b853909aac5da202_96.webp",
+        url: "https://modrinth.com/mod/iris"
+      },
+      {
+        id: "gvQqBUqZ",
+        name: "JEI",
+        icon: "https://cdn.modrinth.com/data/gvQqBUqZ/icon.png",
+        url: "https://modrinth.com/mod/jei"
+      },
+      {
+        id: "uXXizFIs",
+        name: "FerriteCore",
+        icon: "https://cdn.modrinth.com/data/uXXizFIs/222a126f26f8f9ae1eb339f3b767677f18bff31f_96.webp",
+        url: "https://modrinth.com/mod/ferrite-core"
+      },
+      {
+        id: "P7dR8mSH",
+        name: "Fabric API",
+        icon: "https://cdn.modrinth.com/data/P7dR8mSH/icon.png",
+        url: "https://modrinth.com/mod/fabric-api"
+      }
+    ];
+  }
+}
+
+export default function Home() {
+  const [featuredMods] = createResource(fetchFeaturedMods);
+  const [version] = createResource(fetchVersion);
+
+  const displayVersion = () => {
+    const ver = version();
+    return ver ? parseVersion(ver) : null;
+  };
+
+  const floatingMods = () => {
+    const mods = featuredMods();
+    if (!mods) return [];
+
+    return mods.slice(0, MOD_POSITIONS.length).map((mod, index) => ({
+      name: mod.name,
+      icon: mod.icon,
+      onClick: () => window.open(mod.url, '_blank'),
+      ...MOD_POSITIONS[index]
+    }));
+  };
+
+  return (
+    <PageLayout title="Vesta Launcher | The Next Generation Minecraft Launcher">
+      <div class={styles.heroContent}>
+        {/* Background animations */}
+        <div class={styles.floatingDecor}>
+          <For each={floatingMods()}>
+            {(mod) => <ModSquirqle {...mod} />}
+          </For>
+        </div>
+
+        <div class={styles.mainCta}>
+          {displayVersion() && <div class={styles.badge}>{displayVersion()} is here!</div>}
+          <h1 class={styles.title}>
+            <span class={styles.gradientText}>Vesta Launcher</span>
+          </h1>
+          <p class={styles.subtitle}>
+            A modern, native launcher designed for performance,
+            flexibility, and the ultimate modding experience.
+          </p>
+
+          <CtaGroup />
+        </div>
+
+        <LauncherPreview />
+      </div>
+
+      <div id="features" class={styles.sectionDivider} />
+      <FeaturesSection />
+
+      <div id="faq" class={styles.sectionDivider} />
+      <FAQ />
+
+      <div class={styles.footerBranding}>
+        <div class={styles.disclaimer}>
+          <p>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+        </div>
+        <div class={styles.links}>
+          <a href="https://github.com/vesta-project/launcher" target="_blank" rel="noopener noreferrer">
+            <GithubIcon width={24} height={24} />
+          </a>
+          <a href="https://discord.gg/zuDNHNHk8E" target="_blank" rel="noopener noreferrer">
+            <DiscordIcon width={24} height={24} />
+          </a>
+        </div>
+        <div class={styles.copyright}>
+          <p>© 2026 Vesta Project</p>
+        </div>
+      </div>
+    </PageLayout>
+  );
+}

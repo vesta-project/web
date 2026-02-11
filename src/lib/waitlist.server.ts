@@ -1,6 +1,6 @@
 "use server";
 
-import { supabaseAdmin as supabase } from "./supabase.server";
+import { supabase } from "./supabase";
 
 interface SignupResult {
 	success: boolean;

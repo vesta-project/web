@@ -5,6 +5,16 @@ export async function GET() {
       return new Response('Not found', { status: 404 });
     }
     const data = await response.json();
+    
+    // Fix Apple device downloads to use .dmg instead of .app.tar.gz
+    if (data.platforms) {
+      for (const platform in data.platforms) {
+        if (platform.startsWith('darwin-')) {
+          data.platforms[platform].url = data.platforms[platform].url.replace('.app.tar.gz', '.dmg');
+        }
+      }
+    }
+    
     return new Response(JSON.stringify(data), {
       headers: {
         'Content-Type': 'application/json',

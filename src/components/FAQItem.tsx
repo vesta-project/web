@@ -1,6 +1,7 @@
 import { Show } from "solid-js";
 import { Motion, Presence } from "solid-motionone";
 import styles from "./FAQItem.module.css";
+import { FeatureIcon } from "./Icons";
 
 interface FAQItemProps {
     question: string;
@@ -14,10 +15,7 @@ export default function FAQItem(props: FAQItemProps) {
         <div class={styles.faqItem} data-open={props.isOpen}>
             <button class={styles.faqQuestion} onClick={() => props.onToggle()}>
                 <span>{props.question}</span>
-                <span class={styles.faqIcon} style={{ 
-                    transform: props.isOpen ? "rotate(45deg)" : "rotate(0deg)",
-                    transition: "transform 0.3s ease"
-                }}>+</span>
+                <FeatureIcon.Plus class={styles.faqIcon} classList={{ [styles.open]: props.isOpen }} />
             </button>
             <Presence>
                 <Show when={props.isOpen}>

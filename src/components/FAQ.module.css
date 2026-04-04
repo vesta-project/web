@@ -46,13 +46,15 @@
 }
 
 .arrow {
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   color: var(--text-tertiary);
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .arrow.open {
-  transform: rotate(180deg);
-  color: var(--brand-teal);
+  transform: rotate(135deg);
+  color: var(--text-primary);
 }
 
 .answerWrapper {

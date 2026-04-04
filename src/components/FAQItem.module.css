@@ -32,9 +32,15 @@
 }
 
 .faqIcon {
-    font-size: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
     color: var(--text-tertiary);
-    font-family: monospace;
+    transition: all 0.3s ease;
+}
+
+.faqIcon.open {
+    transform: rotate(135deg);
+    color: var(--text-primary);
 }
 
 .faqAnswer {

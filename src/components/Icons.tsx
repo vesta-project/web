@@ -1,9 +1,9 @@
 import { ComponentProps } from 'solid-js';
-import WindowsIcon from '../assets/platform-windows.svg';
 import AppleIcon from '../assets/platform-apple.svg';
 import LinuxIcon from '../assets/platform-linux.svg';
+import WindowsIcon from '../assets/platform-windows.svg';
 
-export { WindowsIcon, AppleIcon, LinuxIcon };
+export { AppleIcon, LinuxIcon, WindowsIcon };
 
 export const GithubIcon = (props: ComponentProps<'svg'>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" {...props}>
@@ -53,6 +53,16 @@ export const FeatureIcon = {
       <circle cx="7" cy="13" r="1" />
       <circle cx="12" cy="13" r="1" />
       <circle cx="17" cy="13" r="1" />
+    </svg>
+  ),
+  Chevron: (props: ComponentProps<'svg'>) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" {...props}>
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  ),
+  Plus: (props: ComponentProps<'svg'>) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" {...props}>
+      <path d="M12 5v14M5 12h14" />
     </svg>
   ),
   Download: (props: ComponentProps<'svg'>) => (

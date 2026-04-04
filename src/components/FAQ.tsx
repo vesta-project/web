@@ -1,5 +1,6 @@
 import { Component, For, createSignal } from 'solid-js';
 import styles from './FAQ.module.css';
+import { FeatureIcon } from './Icons';
 
 interface FAQItem {
   question: string;
@@ -37,7 +38,7 @@ export const FAQ: Component = () => {
                   aria-expanded={isOpen()}
                 >
                   {item.question}
-                  <span class={styles.arrow} classList={{ [styles.open]: isOpen() }}>↓</span>
+                  <FeatureIcon.Plus class={styles.arrow} classList={{ [styles.open]: isOpen() }} />
                 </button>
                 <div class={styles.answerWrapper} classList={{ [styles.show]: isOpen() }}>
                   <p class={styles.answer}>{item.answer}</p>

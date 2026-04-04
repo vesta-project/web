@@ -1,11 +1,10 @@
-﻿import { createSignal, onMount, createResource, Show, For } from "solid-js";
-import { clientOnly } from "@solidjs/start";
-import PageLayout from "../components/PageLayout";
-import { ModSquirqle } from "../components/ModSquirqle";
-import { LauncherPreview } from "../components/LauncherPreview";
-import { FeaturesSection } from "../components/FeaturesSection";
+﻿import { clientOnly } from "@solidjs/start";
+import { createResource, For } from "solid-js";
 import { FAQ } from "../components/FAQ";
-import { GithubIcon, DiscordIcon } from "../components/Icons";
+import { DiscordIcon, GithubIcon } from "../components/Icons";
+import { LauncherPreview } from "../components/LauncherPreview";
+import { ModSquirqle } from "../components/ModSquirqle";
+import PageLayout from "../components/PageLayout";
 import styles from "./index.module.css";
 
 const CtaGroup = clientOnly(() => import("../components/CtaGroup"));
@@ -30,14 +29,14 @@ const fetchVersion = async () => {
 
 // Parse version from launcher package.json
 const parseVersion = (version: string) => {
-  // For "0.1.0", extract "0.1.0-alpha"
+  // For "0.1.0-alpha", extract "0.1.0-alpha"
   const parts = version.split('-');
   if (parts.length >= 2) {
     const versionPart = parts[0]; // "0.1.0"
     const preReleasePart = parts[1]; // "alpha"
     return `${preReleasePart.charAt(0).toUpperCase() + preReleasePart.slice(1).split(".")[0]} v${versionPart}`;
   }
-  return version;
+  return `v${version}`;
 };
 interface FeaturedMod {
   id: string;
@@ -55,36 +54,19 @@ const MOD_POSITIONS = [
 ];
 
 async function fetchFeaturedMods(): Promise<FeaturedMod[]> {
+  // Only run on client side to avoid absolute URL issues in SSR
+  if (typeof window === 'undefined') {
+    return [];
+  }
+
   try {
-    // Fetch directly from Modrinth API (no authentication required)
-    const response = await fetch(
-      'https://api.modrinth.com/v2/search?' +
-      new URLSearchParams({
-        query: '',
-        facets: JSON.stringify([
-          ["project_type:mod"]  // Only mods, any platform
-        ]),
-        index: 'downloads', // Sort by most downloaded
-        limit: '5',
-        offset: '0'
-      })
-    );
+    const response = await fetch('/api/mods/featured');
 
     if (!response.ok) {
-      throw new Error(`Modrinth API error: ${response.status}`);
+      throw new Error(`API error: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    // Transform to our format
-    const featuredMods: FeaturedMod[] = data.hits.map((hit: any) => ({
-      id: hit.project_id,
-      name: hit.title,
-      icon: hit.icon_url || 'https://cdn.modrinth.com/placeholder.svg',
-      url: `https://modrinth.com/mod/${hit.slug}`
-    }));
-
-    return featuredMods;
+    return await response.json();
   } catch (error) {
     console.error('Error fetching featured mods:', error);
 
@@ -107,18 +89,6 @@ async function fetchFeaturedMods(): Promise<FeaturedMod[]> {
         name: "JEI",
         icon: "https://cdn.modrinth.com/data/gvQqBUqZ/icon.png",
         url: "https://modrinth.com/mod/jei"
-      },
-      {
-        id: "uXXizFIs",
-        name: "FerriteCore",
-        icon: "https://cdn.modrinth.com/data/uXXizFIs/222a126f26f8f9ae1eb339f3b767677f18bff31f_96.webp",
-        url: "https://modrinth.com/mod/ferrite-core"
-      },
-      {
-        id: "P7dR8mSH",
-        name: "Fabric API",
-        icon: "https://cdn.modrinth.com/data/P7dR8mSH/icon.png",
-        url: "https://modrinth.com/mod/fabric-api"
       }
     ];
   }
@@ -171,8 +141,8 @@ export default function Home() {
         <LauncherPreview />
       </div>
 
-      <div id="features" class={styles.sectionDivider} />
-      <FeaturesSection />
+      {/* <div id="features" class={styles.sectionDivider} />
+      <FeaturesSection /> */}
 
       <div id="faq" class={styles.sectionDivider} />
       <FAQ />
@@ -190,7 +160,7 @@ export default function Home() {
           </a>
         </div>
         <div class={styles.copyright}>
-          <p>© 2026 Vesta Project</p>
+          <p>© {new Date().getFullYear()} Vesta Project</p>
         </div>
       </div>
     </PageLayout>

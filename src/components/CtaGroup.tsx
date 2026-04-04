@@ -37,7 +37,7 @@ export default function CtaGroup() {
                             <div class={styles.unavailablePlatform}>
                                 <p>No direct download for your platform yet.</p>
                                 <button class={styles.secondaryBtn} onClick={() => setShowOtherPlatforms(true)}>
-                                    View Other Versions
+                                    View All Versions
                                 </button>
                             </div>
                         }>
@@ -53,16 +53,17 @@ export default function CtaGroup() {
                                 </span>
                                 Download for {platformInfo.label}
                             </a>
+
+                            <Show when={latestRelease()}>
+                                <button 
+                                    class={styles.secondaryBtn}
+                                    onClick={() => setShowOtherPlatforms(true)}
+                                >
+                                    Other Platforms
+                                </button>
+                            </Show>
                         </Show>
                     </Show>
-                </Show>
-                <Show when={latestRelease()}>
-                    <button 
-                        class={styles.secondaryBtn}
-                        onClick={() => setShowOtherPlatforms(true)}
-                    >
-                        Other Platforms
-                    </button>
                 </Show>
             </div>
 

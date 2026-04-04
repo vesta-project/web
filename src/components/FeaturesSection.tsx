@@ -11,52 +11,40 @@ interface Feature {
 
 const FEATURES: Feature[] = [
   {
-    title: 'Multi-Loader Support',
-    description: 'Launch Minecraft with any mod loader - Vanilla, Fabric, Forge, NeoForge, or Quilt.',
-    icon: 'Mod',
-    details: ['Automatic loader detection', 'Version compatibility checking', 'One-click installation']
-  },
-  {
-    title: 'Instance Management',
-    description: 'Create and manage multiple isolated Minecraft installations with different versions and mods.',
-    icon: 'Instance',
-    details: ['Isolated game directories', 'Custom Java settings', 'Modpack integration']
-  },
-  {
-    title: 'Auto-Mod Installation',
-    description: 'Seamlessly install mods and modpacks with automatic dependency resolution and updates.',
-    icon: 'Download',
-    details: ['Modrinth integration', 'Dependency management', 'Version conflict resolution']
-  },
-  {
-    title: 'Account Management',
-    description: 'Support for Microsoft accounts and guest mode for flexible authentication options.',
-    icon: 'User',
-    details: ['Microsoft OAuth', 'Guest browsing mode', 'Profile switching']
-  },
-  {
-    title: 'Advanced Theming',
-    description: 'Customize the launcher appearance with extensive theming options and visual styles.',
-    icon: 'Theme',
-    details: ['Light/Dark modes', 'Color customization', 'Glass, satin, and flat styles']
-  },
-  {
-    title: 'Cross-Platform',
-    description: 'Native performance on Windows, macOS, and Linux with a unified experience.',
-    icon: 'Platform',
-    details: ['Native binaries', 'Platform-specific optimizations', 'Consistent UI/UX']
-  },
-  {
-    title: 'System Integration',
-    description: 'Deep system integration with tray support, file dropping, and CLI deep links.',
-    icon: 'System',
-    details: ['System tray', 'Drag & drop mods', 'URL scheme handling']
-  },
-  {
-    title: 'Performance Optimized',
-    description: 'Built with Tauri and Rust for lightning-fast startup and minimal resource usage.',
+    title: 'Modern Performance',
+    description: 'Built with Rust for a lightning-fast startup and minimal resource usage on your PC.',
     icon: 'Speed',
     details: ['Native performance', 'Low memory footprint', 'Fast mod scanning']
+  },
+  {
+    title: 'Customizable UI',
+    description: 'A deeply flexible interface featuring light and dark modes with modern visual styles.',
+    icon: 'Theme',
+    details: ['Adaptive appearance', 'Custom accent colors', 'Modern desktop integration']
+  },
+  {
+    title: 'Mod Integrations',
+    description: 'Browse and install millions of mods directly from Modrinth and CurseForge.',
+    icon: 'Mod',
+    details: ['Modrinth & CurseForge', 'Auto-dependency resolution', 'Version conflict alerts']
+  },
+  {
+    title: 'Isolated Instances',
+    description: 'Keep your worlds and mods organized with completely separate game directories.',
+    icon: 'Instance',
+    details: ['Zero-conflict folders', 'Custom Java versions', 'Easily exportable configs']
+  },
+  {
+    title: 'Native Everywhere',
+    description: 'A consistent experience across Windows, macOS (Intel/M-series), and Linux.',
+    icon: 'Platform',
+    details: ['Universal binaries', 'System tray integration', 'Native notifications']
+  },
+  {
+    title: 'Secure by Design',
+    description: 'Sign in with your Microsoft account. All your data stays private and local on your machine.',
+    icon: 'User',
+    details: ['Microsoft Login', 'Private & Local-first', 'Verified open-source']
   }
 ];
 

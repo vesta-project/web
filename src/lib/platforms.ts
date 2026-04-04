@@ -16,9 +16,9 @@ export function getPlatformInfo(): PlatformInfo {
   let platform: Platform = 'unknown';
   let arch: Arch = 'x86_64';
 
-  if (userAgent.indexOf('win') !== -1) {
+  if (userAgent.indexOf('win') !== -1 || userAgent.indexOf('windows') !== -1) {
     platform = 'windows';
-  } else if (userAgent.indexOf('mac') !== -1) {
+  } else if (userAgent.indexOf('mac') !== -1 || userAgent.indexOf('darwin') !== -1) {
     platform = 'macos';
   } else if (userAgent.indexOf('linux') !== -1) {
     platform = 'linux';
@@ -28,8 +28,14 @@ export function getPlatformInfo(): PlatformInfo {
   if (
     userAgent.indexOf('arm') !== -1 ||
     userAgent.indexOf('aarch64') !== -1 ||
-    (platform === 'macos' && 'ontouchstart' in window) // iPad/M-series detection hint
+    (platform === 'macos' && 'ontouchstart' in window) || // iPad/M-series detection hint
+    (platform === 'macos' && userAgent.indexOf('mac os x') !== -1 && !userAgent.includes('intel'))
   ) {
+    arch = 'aarch64';
+  }
+
+  // Windows ARM detection (can be tricky via UA)
+  if (platform === 'windows' && (userAgent.includes('arm64') || userAgent.includes('aarch64'))) {
     arch = 'aarch64';
   }
 
@@ -41,6 +47,18 @@ export function getPlatformInfo(): PlatformInfo {
     if (platformStr === 'windows') platform = 'windows';
     else if (platformStr === 'macos') platform = 'macos';
     else if (platformStr === 'linux') platform = 'linux';
+    
+    // Check architecture if bits are exposed
+    // @ts-ignore
+    if (navigator.userAgentData.architecture) {
+      // @ts-ignore
+      const archStr = navigator.userAgentData.architecture.toLowerCase();
+      if (archStr.includes('arm') || archStr.includes('aarch64')) {
+        arch = 'aarch64';
+      } else if (archStr.includes('x86')) {
+        arch = 'x86_64';
+      }
+    }
   }
 
   const labels: Record<Platform, string> = {

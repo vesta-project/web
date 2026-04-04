@@ -17,6 +17,15 @@ export const ModSquirqle: Component<ModSquirqleProps> = (props) => {
   const floatRange = props.floatRange || 20;
   const speed = props.speed || 3;
 
+  const [isMobile, setIsMobile] = createSignal(false);
+
+  onMount(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  });
+
   // Pre-calculate random values once per component instance
   const randomRotate = Math.random() * 10;
   const randomYDuration = speed + Math.random() * 2;
@@ -32,12 +41,12 @@ export const ModSquirqle: Component<ModSquirqleProps> = (props) => {
         rotate: randomRotate
       }}
       animate={{ 
-        opacity: 0.6,
+        opacity: isMobile() ? 0.4 : 0.6,
         scale: 1,
-        rotate: [randomRotate, -randomRotate, randomRotate],
-        y: [-floatRange, floatRange, -floatRange]
+        rotate: isMobile() ? randomRotate : [randomRotate, -randomRotate, randomRotate],
+        y: isMobile() ? 0 : [-floatRange, floatRange, -floatRange]
       }}
-      whileHover={{
+      whileHover={isMobile() ? {} : {
         scale: 1.05,
         opacity: 1,
         transition: { 

@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from "motion-solid";
+import { Show } from "solid-js";
+import { Motion, Presence } from "solid-motionone";
 import styles from "./FAQItem.module.css";
 
 interface FAQItemProps {
@@ -18,20 +19,20 @@ export default function FAQItem(props: FAQItemProps) {
                     transition: "transform 0.3s ease"
                 }}>+</span>
             </button>
-            <AnimatePresence>
-                {props.isOpen && (
-                    <motion.div 
+            <Presence>
+                <Show when={props.isOpen}>
+                    <Motion tag="div" 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        transition={{ duration: 0.3, easing: "ease-out" }}
                     >
                         <div class={styles.faqAnswer}>
                             {props.answer}
                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    </Motion>
+                </Show>
+            </Presence>
         </div>
     );
 }

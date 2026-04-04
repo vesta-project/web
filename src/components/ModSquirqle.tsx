@@ -1,5 +1,5 @@
-import { motion } from 'motion-solid';
 import { Component, createSignal, onMount } from 'solid-js';
+import { Motion } from 'solid-motionone';
 import styles from './ModSquirqle.module.css';
 
 interface ModSquirqleProps {
@@ -13,9 +13,24 @@ interface ModSquirqleProps {
   onClick?: () => void;
 }
 
+function stableHash(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash << 5) - hash + value.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+function pseudoRandom(seed: number, offset: number): number {
+  const x = Math.sin(seed * 12.9898 + offset * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 export const ModSquirqle: Component<ModSquirqleProps> = (props) => {
   const floatRange = props.floatRange || 20;
   const speed = props.speed || 3;
+  const delay = props.delay || 0;
 
   const [isMobile, setIsMobile] = createSignal(false);
 
@@ -26,13 +41,23 @@ export const ModSquirqle: Component<ModSquirqleProps> = (props) => {
     return () => window.removeEventListener('resize', handleResize);
   });
 
-  // Pre-calculate random values once per component instance
-  const randomRotate = Math.random() * 10;
-  const randomYDuration = speed + Math.random() * 2;
-  const randomRotateDuration = speed * 1.5 + Math.random() * 2;
+  // Deterministic values keep server/client renders aligned during hydration.
+  const seed = stableHash(`${props.name}:${props.initialX}:${props.initialY}`);
+  const randomRotate = (pseudoRandom(seed, 1) - 0.5) * 10;
+  const randomYDuration = speed + pseudoRandom(seed, 2) * 2;
+  const randomRotateDuration = speed * 1.5 + pseudoRandom(seed, 3) * 2;
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (!props.onClick) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      props.onClick();
+    }
+  };
 
   return (
-    <motion.div
+    <Motion
+      tag="div"
       initial={{ 
         left: `${props.initialX}%`, 
         top: `${props.initialY}%`, 
@@ -46,29 +71,34 @@ export const ModSquirqle: Component<ModSquirqleProps> = (props) => {
         rotate: isMobile() ? randomRotate : [randomRotate, -randomRotate, randomRotate],
         y: isMobile() ? 0 : [-floatRange, floatRange, -floatRange]
       }}
-      whileHover={isMobile() ? {} : {
-        scale: 1.05,
-        opacity: 1,
-        transition: { 
-          scale: { duration: 0.2 },
-          opacity: { duration: 0.2 }
-        }
-      }}
+      hover={
+        isMobile()
+          ? undefined
+          : {
+              scale: 1.05,
+              opacity: 1
+            }
+      }
       transition={{ 
-        opacity: { duration: 2, delay:  0 },
-        scale: { duration: 0.5, delay:  0 },
+        opacity: { duration: 1.2, delay },
+        scale: { duration: 0.5, delay },
         y: { 
           duration: randomYDuration, 
-          repeat: Infinity, 
-          ease: 'easeInOut' 
+          repeat: Infinity,
+          easing: 'ease-in-out',
+          delay
         },
         rotate: { 
           duration: randomRotateDuration, 
-          repeat: Infinity, 
-          ease: 'easeInOut' 
+          repeat: Infinity,
+          easing: 'ease-in-out',
+          delay
         }
       }}
       onClick={props.onClick}
+      onKeyDown={handleKeyDown}
+      role={props.onClick ? 'button' : undefined}
+      tabIndex={props.onClick ? 0 : undefined}
       style={{ cursor: props.onClick ? 'pointer' : 'default' }}
       class={styles.squirqle}
     >
@@ -86,6 +116,6 @@ export const ModSquirqle: Component<ModSquirqleProps> = (props) => {
         )}
       </div>
       <div class={styles.label}>{props.name}</div>
-    </motion.div>
+    </Motion>
   );
 };

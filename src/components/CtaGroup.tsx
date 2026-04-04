@@ -1,12 +1,9 @@
-import { createResource, Show, createSignal, For } from "solid-js";
-import { clientOnly } from "@solidjs/start";
-import { motion } from "motion-solid";
+import { createEffect, createResource, createSignal, For, onCleanup, Show } from "solid-js";
+import { Motion, Presence } from "solid-motionone";
+import { AppleIcon, LinuxIcon, WindowsIcon } from "../components/Icons";
 import { getPlatformInfo } from "../lib/platforms";
 import { fetchLatestRelease, getPlatformKey } from "../lib/releases";
-import { WindowsIcon, AppleIcon, LinuxIcon } from "../components/Icons";
 import styles from "../routes/index.module.css";
-
-const AnimatePresence = clientOnly(() => import("motion-solid").then(m => ({ default: m.AnimatePresence })));
 
 export default function CtaGroup() {
     const platformInfo = getPlatformInfo();
@@ -21,6 +18,25 @@ export default function CtaGroup() {
     };
 
     const downloadUrl = () => getPrimaryDownload()?.url;
+
+    createEffect(() => {
+        if (!showOtherPlatforms()) return;
+
+        const previousOverflow = document.body.style.overflow;
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setShowOtherPlatforms(false);
+            }
+        };
+
+        document.body.style.overflow = "hidden";
+        window.addEventListener("keydown", onKeyDown);
+
+        onCleanup(() => {
+            document.body.style.overflow = previousOverflow;
+            window.removeEventListener("keydown", onKeyDown);
+        });
+    });
 
     return (
         <>
@@ -68,21 +84,27 @@ export default function CtaGroup() {
             </div>
 
             {/* Other Platforms Dialog */}
-            <AnimatePresence>
+            <Presence>
                 <Show when={showOtherPlatforms()}>
-                    <motion.div 
+                    <Motion
+                        tag="div"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        transition={{ duration: 0.22, easing: "ease-out" }}
                         class={styles.dialogOverlay}
                         onClick={() => setShowOtherPlatforms(false)}
                     >
-                        <motion.div 
-                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                        <Motion
+                            tag="div"
+                            initial={{ scale: 0.94, opacity: 0, y: 16 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            exit={{ scale: 0.97, opacity: 0, y: 12 }}
+                            transition={{ duration: 0.24, easing: [0.22, 1, 0.36, 1] }}
                             class={styles.dialog}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Download Vesta"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <h2 class={styles.dialogTitle}>Download Vesta</h2> 
@@ -141,10 +163,10 @@ export default function CtaGroup() {
                                 </div>
                             </Show>
                             <button class={styles.closeBtn} onClick={() => setShowOtherPlatforms(false)}>Close</button>
-                        </motion.div>
-                    </motion.div>
+                        </Motion>
+                    </Motion>
                 </Show>
-            </AnimatePresence>
+            </Presence>
         </>
     );
 }

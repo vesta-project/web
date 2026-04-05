@@ -5,6 +5,7 @@ import { DiscordIcon, GithubIcon } from "../components/Icons";
 import { LauncherPreview } from "../components/LauncherPreview";
 import { ModSquirqle } from "../components/ModSquirqle";
 import PageLayout from "../components/PageLayout";
+import { getFeaturedMods } from "../lib/mods";
 import styles from "./index.module.css";
 
 const CtaGroup = clientOnly(() => import("../components/CtaGroup"));
@@ -38,12 +39,6 @@ const parseVersion = (version: string) => {
   }
   return `v${version}`;
 };
-interface FeaturedMod {
-  id: string;
-  name: string;
-  icon: string;
-  url: string;
-}
 
 const MOD_POSITIONS = [
   { initialX: 8, initialY: 15, delay: 0.2, speed: 4, floatRange: 15 },
@@ -53,49 +48,8 @@ const MOD_POSITIONS = [
   { initialX: 92, initialY: 50, delay: 1.1, speed: 3.8, floatRange: 14 },
 ];
 
-async function fetchFeaturedMods(): Promise<FeaturedMod[]> {
-  // Only run on client side to avoid absolute URL issues in SSR
-  if (typeof window === 'undefined') {
-    return [];
-  }
-
-  try {
-    const response = await fetch('/api/mods/featured');
-
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching featured mods:', error);
-
-    // Fallback to curated popular mods if API fails
-    return [
-      {
-        id: "AANobbMI",
-        name: "Sodium",
-        icon: "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp",
-        url: "https://modrinth.com/mod/sodium"
-      },
-      {
-        id: "YL57xq9U",
-        name: "Iris Shaders",
-        icon: "https://cdn.modrinth.com/data/YL57xq9U/18d0e7f076d3d6ed5bedd472b853909aac5da202_96.webp",
-        url: "https://modrinth.com/mod/iris"
-      },
-      {
-        id: "gvQqBUqZ",
-        name: "JEI",
-        icon: "https://cdn.modrinth.com/data/gvQqBUqZ/icon.png",
-        url: "https://modrinth.com/mod/jei"
-      }
-    ];
-  }
-}
-
 export default function Home() {
-  const [featuredMods] = createResource(fetchFeaturedMods);
+  const [featuredMods] = createResource(getFeaturedMods);
   const [version] = createResource(fetchVersion);
 
   const displayVersion = () => {

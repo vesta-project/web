@@ -5,6 +5,24 @@ import { getPlatformInfo } from "../lib/platforms";
 import { fetchLatestRelease, getPlatformKey } from "../lib/releases";
 import styles from "../routes/index.module.css";
 
+const VisuallyHidden = (props: { children: any }) => (
+    <span 
+        style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            padding: '0',
+            margin: '-1px',
+            overflow: 'hidden',
+            clip: 'rect(0, 0, 0, 0)',
+            whiteSpace: 'nowrap',
+            borderWidth: '0'
+        }}
+    >
+        {props.children}
+    </span>
+);
+
 export default function CtaGroup() {
     const platformInfo = getPlatformInfo();
     const [latestRelease] = createResource(fetchLatestRelease);
@@ -95,6 +113,9 @@ export default function CtaGroup() {
                         class={styles.dialogOverlay}
                         onClick={() => setShowOtherPlatforms(false)}
                     >
+                        <VisuallyHidden>
+                            <h2>Other Platforms</h2>
+                        </VisuallyHidden>
                         <Motion
                             tag="div"
                             initial={{ scale: 0.94, opacity: 0, y: 16 }}

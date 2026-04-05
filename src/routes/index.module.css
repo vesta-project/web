@@ -83,15 +83,15 @@
   color: white;
   padding: 1.1rem 2.5rem;
   border-radius: 18px;
-  font-weight: 700;
+  font-weight: 800; /* Increased from 700 for better visibility */
   font-size: 1.2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); /* Darkened shadow */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Slightly stronger border */
 }
 
 .primaryBtn:hover {

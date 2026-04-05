@@ -106,10 +106,20 @@ export default function Home() {
           <p>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
         </div>
         <div class={styles.links}>
-          <a href="https://github.com/vesta-project/launcher" target="_blank" rel="noopener noreferrer">
+          <a 
+            href="https://github.com/vesta-project/launcher" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            aria-label="View our source code on GitHub"
+          >
             <GithubIcon width={24} height={24} />
           </a>
-          <a href="https://discord.gg/zuDNHNHk8E" target="_blank" rel="noopener noreferrer">
+          <a 
+            href="https://discord.gg/zuDNHNHk8E" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            aria-label="Join our Discord community"
+          >
             <DiscordIcon width={24} height={24} />
           </a>
         </div>

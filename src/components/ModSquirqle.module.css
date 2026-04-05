@@ -8,6 +8,12 @@
   z-index: 1;
 }
 
+@media (max-width: 768px) {
+  .squirqle {
+    pointer-events: none;
+  }
+}
+
 .content {
   width: 80px;
   height: 80px;

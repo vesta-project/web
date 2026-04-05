@@ -5,7 +5,18 @@ export default defineConfig({
   vite: {
     plugins: [solidSvg()],
     ssr: {
-      noExternal: ["solid-motionone", "@motionone/dom"]
+      noExternal: [
+        "solid-motionone",
+        "@motionone/dom",
+        "tslib",
+        "@supabase/supabase-js",
+        "resend"
+      ]
+    },
+    resolve: {
+      alias: {
+        tslib: "tslib"
+      }
     }
   },
 });

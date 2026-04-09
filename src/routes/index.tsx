@@ -115,7 +115,7 @@ export default function Home() {
             <GithubIcon width={24} height={24} />
           </a>
           <a 
-            href="https://discord.gg/zuDNHNHk8E" 
+            href="https://discord.gg/mgP9H568U5" 
             target="_blank" 
             rel="noopener noreferrer"
             aria-label="Join our Discord community"

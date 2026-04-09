@@ -27,6 +27,6 @@ This is the front-facing web presence for Vesta. It handles:
 ---
 <p align="center">
   Looking for the launcher itself? Check out <a href="https://github.com/vesta-project/launcher">Vesta Launcher</a>. <br/>
-  Join our <a href="https://discord.gg/zuDNHNHk8E">Discord</a> for updates and support. <br/>
+  Join our <a href="https://discord.gg/mgP9H568U5">Discord</a> for updates and support. <br/>
   <sub>© 2026 Vesta Launcher</sub>
 </p>

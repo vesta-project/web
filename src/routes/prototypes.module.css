@@ -1,0 +1,505 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.pageTitle {
+  font-family: var(--font-bubbly);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.pageSubtitle {
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-bubbly);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.sectionDesc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+}
+
+.demoRow {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Base Card Styles */
+.card {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.cardImage {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    hsl(var(--brand-teal) / 0.2), 
+    hsl(var(--brand-purple) / 0.3)
+  );
+}
+
+.cardGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.cardContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+}
+
+.cardTitle {
+  font-family: var(--font-bubbly);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardMeta {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+/* Play Button */
+.playButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.15s ease;
+  animation: fadeIn 0.15s ease;
+}
+
+.playButton:hover {
+  background: var(--primary-hover);
+  transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================
+   APPROACH 1: Split Button
+   ============================================ */
+.splitButtonWrapper {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.splitButtonContainer {
+  position: relative;
+  display: flex;
+  border-radius: 20px;
+  overflow: visible;
+}
+
+.splitButtonMain {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px 0 0 18px;
+  background: var(--primary);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.splitButtonMain:hover {
+  background: var(--primary-hover);
+}
+
+.splitButtonChevron {
+  width: 24px;
+  height: 36px;
+  border-radius: 0 18px 18px 0;
+  background: hsl(var(--color__primary-hue) 60% 35%);
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.splitButtonChevron:hover {
+  background: hsl(var(--color__primary-hue) 60% 40%);
+}
+
+.splitDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: dropdownIn 0.15s ease;
+  z-index: 100;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownSection {
+  padding: 0.25rem 0;
+}
+
+.dropdownSection + .dropdownSection {
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 0.25rem;
+  padding-top: 0.5rem;
+}
+
+.dropdownLabel {
+  display: block;
+  padding: 0.25rem 1rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s ease;
+}
+
+.dropdownItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dropdownIcon {
+  font-size: 1rem;
+}
+
+/* ============================================
+   APPROACH 2: Hover Pills
+   ============================================ */
+.quickLaunchPills {
+  position: absolute;
+  bottom: 50px;
+  left: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  animation: pillsIn 0.2s ease;
+}
+
+@keyframes pillsIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background: var(--primary);
+  transform: scale(1.05);
+}
+
+.pillText {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================
+   APPROACH 3: Orbital
+   ============================================ */
+.orbitalContainer {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 80px;
+  height: 80px;
+  animation: fadeIn 0.2s ease;
+}
+
+.orbitalCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.15s ease;
+  z-index: 2;
+}
+
+.orbitalCenter:hover {
+  background: var(--primary-hover);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.orbitalSatellite {
+  --angle: calc(var(--orbit-index) * (360deg / var(--orbit-total)) - 45deg);
+  --radius: 32px;
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%) 
+             rotate(var(--angle)) 
+             translateY(calc(-1 * var(--radius))) 
+             rotate(calc(-1 * var(--angle)));
+  transition: background 0.15s ease, transform 0.15s ease;
+  animation: orbitIn 0.3s ease backwards;
+  animation-delay: calc(var(--orbit-index) * 0.05s);
+}
+
+@keyframes orbitIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) 
+               rotate(var(--angle)) 
+               translateY(calc(-1 * var(--radius))) 
+               rotate(calc(-1 * var(--angle)));
+  }
+}
+
+.orbitalSatellite:hover {
+  background: var(--primary);
+  transform: translate(-50%, -50%) 
+             rotate(var(--angle)) 
+             translateY(calc(-1 * var(--radius))) 
+             rotate(calc(-1 * var(--angle)))
+             scale(1.15);
+}
+
+/* ============================================
+   APPROACH 4: Right-click Context Menu
+   ============================================ */
+.rightClickHint {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 4px;
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  animation: fadeIn 0.2s ease;
+}
+
+.contextMenuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.contextMenu {
+  position: fixed;
+  min-width: 180px;
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: contextIn 0.1s ease;
+  z-index: 1001;
+}
+
+@keyframes contextIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.contextMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s ease;
+}
+
+.contextMenuItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.contextMenuLabel {
+  display: block;
+  padding: 0.25rem 1rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.contextMenuDivider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0.25rem 0;
+}
+
+/* ============================================
+   Summary Section
+   ============================================ */
+.summarySection {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.summaryCard {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.summaryCard h3 {
+  font-family: var(--font-bubbly);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+}
+
+.summaryCard ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.summaryCard li {
+  margin-bottom: 0.35rem;
+}
+
+.summaryCard li:last-child {
+  margin-bottom: 0;
+}
